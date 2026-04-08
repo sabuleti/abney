@@ -1,75 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Abney transect</title>
-    <meta charset="UTF-8">
-    <meta name="keywords" content="...">
-    <meta name="description" content="...">
-    
-    <meta property="og:image" content="https://sabuleti.github.io/abney/orangeTip.jpg" />
-    <meta property="og:title" content="Abney transect" />
-    <meta property="og:url" content="https://sabuleti.github.io/abney/index.html" />
-
-    <meta http-equiv="cache-control" content="no-store, must-revalidate, post-check=0, pre-check=0">
-    <meta http-equiv="Pragma" content="no-cache"/>
-    <meta http-equiv="expires" content="0">
-      
-  
-  <link rel="icon" type="image/png" href="../favicon.png">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
 
 body {
-  background:  url('light_grey.jpg'); /* http://subtlepatterns.com/subtle-grunge/ */
+  background: url("light_grey.jpg") repeat; /* tiled background */
 }
 
-  body {
-    margin: 0;
-    padding: 0;
-    }
-  div.img {
-   
-    
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 100vw;
-    height: 100vh;
-    }
- .top-icons{
-	position:fixed;
-	z-index:1001;
-	top:10px;
-	right:10px;
-	background-size:44px;
-}   
-
-
-
-.pic{
-  position: absolute;
-  left: 0px;
-  top: 0px;  
-  width:100%;
-  
+.svg-embed {
+  width: 100%;
+  height: auto;
+  display: block;
 }
-
-    
 </style>
-
 </head>
-
 <body>
-<div class="top-icons">
-      
-     
-    </div>
-<embed class="pic" src="index.svg" >   
-    
-  <div class="img"></div>
-  <div class="bottom-icons">
-      
-  </div>
+
+<!-- Embed container -->
+<embed src="portrait.svg" class="svg-embed" id="svgEmbed">
+
+<script>
+// Preload both SVGs for instant swap
+const svgFiles = {
+  portrait: 'portrait.svg',
+  landscape: 'landscape.svg'
+};
+
+for (const key in svgFiles) {
+  const img = new Image();
+  img.src = svgFiles[key];
+}
+
+// Track current orientation to avoid unnecessary reloads
+let currentOrientation = '';
+
+function swapSVG() {
+  const embed = document.getElementById('svgEmbed');
+  const orientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+
+  if (orientation !== currentOrientation) {
+    embed.src = svgFiles[orientation];
+    currentOrientation = orientation;
+  }
+}
+
+// Initial load
+swapSVG();
+
+// Listen to orientation and resize events
+window.addEventListener('resize', swapSVG);
+window.addEventListener('orientationchange', swapSVG);
+</script>
 
 </body>
 </html>
